@@ -1,0 +1,50 @@
+/* -------------------------------------------
+               CONSOLE CSS
+--------------------------------------------*/
+.close_windows
+{
+	position:absolute;
+	right:1%;
+	top:3%;
+	cursor:pointer;
+}
+.console
+{
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:50%;
+	background:rgba(221,204,153,0.8);
+	height:25%;
+	border-top-right-radius:10px;
+	box-shadow: 15px 15px 12px #000, inset 0 0 65px #000, inset 0 0 200px rgb(100,100,50);
+	padding:1em;
+	z-index:200;
+}
+.console .chat
+{
+	width:100%;
+	height:85%;
+	overflow-y:auto;
+
+}
+.console .command_bar
+{
+
+	padding:0;
+	margin:0;
+}
+.command_bar input[type=text]
+{
+	width:99%;
+	padding:0;
+	margin:0;
+}
+#open_console
+{
+	position:fixed;
+	display:none;
+	left:0;
+	bottom:0;
+	cursor:pointer;
+}

@@ -1,0 +1,21 @@
+/* -------------------------------------------
+               HOMEPAGE CSS
+--------------------------------------------*/
+.home_logo
+{
+	text-align:center;
+}
+.home_logo img
+{
+	width:50%;
+}
+.home_login
+{
+	text-align:center;
+	width:50%;
+	background:rgba(128,0,0,0.5);
+	border: 3px solid rgb(128,0,0);
+	margin: auto;
+	padding: 1em;
+	border-radius:20px;
+}

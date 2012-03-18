@@ -1,0 +1,52 @@
+.map
+{
+position:absolute;
+left:25%;
+text-align:center;
+overflow:hidden;
+}
+#player_container
+{
+	position:absolute;
+	top:-72px;
+	left:-72px;
+	width:936px;
+	height:936px;
+
+
+}
+#field_container
+{
+	position:absolute;
+	top:-72px;
+	left:-72px;
+	width:936px;
+	height:936px;
+	background:red;
+
+}
+.field
+{
+position:absolute;
+z-index:0;
+margin:0;
+padding:0;
+width:72px;
+height:72px;
+
+}
+.field1
+{
+background:url("/assets/Herbe.png");
+}
+.field2
+{
+	background:url("/assets/Fleur.png");
+}
+.player
+{
+position:absolute;
+z-index:1;
+width:72px;
+height:72px;
+}

@@ -1,0 +1,12 @@
+html,body
+{
+	height:100%;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+body
+{
+	background:url("/assets/backtest.jpg") fixed;
+	font-family: 'Happy Monkey', cursive;
+}

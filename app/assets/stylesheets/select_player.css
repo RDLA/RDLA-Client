@@ -1,0 +1,42 @@
+.select_player
+{
+	height:90%;
+	width: 25%;
+	text-align:center;
+	margin:1em;
+	padding:1em;
+	background:rgba(221,204,153,0.8);
+	border-radius:10px;
+	box-shadow: 15px 15px 12px #000, inset 0 0 65px #000, inset 0 0 200px rgb(100,100,50);
+	float:left;
+	
+}
+.select_player div
+{
+	margin-top:80%;
+}
+.select_player img
+{
+	max-width:90%;
+	margin-bottom:5em;
+}
+.select_player h2
+{
+	font-size:xx-large;
+}
+.select_player a,.select_player a:visited
+{
+	text-decoration:none;
+	color:white;
+	font-weight:bolder;
+	padding:1em;
+	border-radius:10px;
+	box-shadow: 5px 5px 12px #000, inset 0 0 65px #000, inset 0 0 200px rgb(100,100,50);
+}
+.select_player a:hover
+{
+	text-decoration:none;
+	padding:1em;
+	border-radius:10px;
+	box-shadow: 5px 5px 12px #000, inset 0 0 65px #000, inset 0 0 200px #900;
+}

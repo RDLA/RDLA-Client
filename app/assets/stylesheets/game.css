@@ -1,0 +1,24 @@
+.map
+{
+	background:black;
+	width: 792px;
+	height:792px;
+	margin:auto;
+}
+.player_name
+{
+	position:absolute;
+	text-align:center;
+	width:72px;
+	color:black;
+	z-index:1;
+	text-shadow: 0px 0px 6px #FFF;
+	font-family: 'Happy Monkey', cursive;
+}
+.bgsound
+{
+	position:fixed;
+	bottom:0;
+	right:0;
+	width:120px;
+}
