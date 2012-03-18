@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.2'
-gem 'sqlite3'
+
 gem 'heroku'
 
 #Auth
@@ -9,6 +9,10 @@ gem 'omniauth-facebook'
 
 group :development do
 	gem "rails_best_practices"
+	gem "sqlite3"
+end
+group :production do
+	gem pg
 end
 
 # Gems used only for assets and not required
