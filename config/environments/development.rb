@@ -34,4 +34,7 @@ Client::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  DB_URL = "http://localhost:3001/api/"
+  ASSETS_URL = "http://assets.rdla.fr/"
 end

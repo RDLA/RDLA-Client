@@ -1,9 +1,9 @@
 <% @players.each do |player| %>
 <div class="select_player">
-<h2><%= player.name %></h2>
+<h2><%= player["name"] %></h2>
 	<%= image_tag "/assets/big_rabbit.jpg" %>
 	
-	<p><%= link_to "Choisir ce personnage","#{log_player_path}?id=#{player.id}", :method => :put %></p>
+	<p><%= link_to "Choisir ce personnage","#{log_player_path}?id=#{player["id"]}", :method => :put %></p>
 </div>
 <% end %>
 <% if @players.length < 3 %>

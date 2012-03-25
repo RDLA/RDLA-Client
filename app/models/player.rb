@@ -1,3 +1,3 @@
-class Player < ActiveRecord::Base
-  belongs_to :user
+class Player < ActiveResource::Base
+  self.site = "#{DB_URL}"
 end

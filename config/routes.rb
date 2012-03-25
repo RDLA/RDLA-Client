@@ -51,6 +51,7 @@ Client::Application.routes.draw do
   get '/connect_player', to: 'game#connect_player'
   put '/log_player', to: 'game#log_player'
   get '/game', to: 'game#index'
+  get 'fields', to: 'fields#index'
   match '/auth/:provider/callback', to: 'sessions#create'
   root to: 'home#index'
 

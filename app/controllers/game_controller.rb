@@ -30,7 +30,8 @@ class GameController < ApplicationController
 			redirect_to root_path
 		else
 			
-			@players = user.players
+			@players = user.get(:players)
+			
 		end
 	end
 end

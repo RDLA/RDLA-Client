@@ -1,3 +1,3 @@
-class User < ActiveRecord::Base
-	has_many :players
+class User < ActiveResource::Base
+	self.site = DB_URL
 end
