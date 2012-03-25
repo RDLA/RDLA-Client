@@ -2,10 +2,7 @@ function connect_websocket()
 {
 	WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf"; //WEBSocket Fallback
 	is_websocket = false;
-	if ( $.browser.mozilla ) 
-		websocket = new WebSocket("ws://home.rdla.fr:8081");
-	else 
-		websocket = new WebSocket("ws://home.rdla.fr:8081");
+	websocket = new WebSocket("ws://home.rdla.fr:8081");
 		
     websocket.onopen = function(evt) { is_websocket = true; change_server_state(); };
 	websocket.onmessage = function(evt) { onMessage(evt); };
