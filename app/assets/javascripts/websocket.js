@@ -55,7 +55,8 @@ function onMessage(evt) {
 	{
 		idplayer = $("#player_connected").val();
 		log("Connexion au serveur en cours...");
-		websocket.send("/LOG player "+idplayer);
+		if(idplayer !== undefined)
+			websocket.send("/LOG player "+idplayer);
 	}
 	else
 		{

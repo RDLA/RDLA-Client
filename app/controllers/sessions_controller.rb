@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
 		email = result.info.email if(result.provider == "facebook")
 		email = params[:email] if(result.provider == "developer")
 		
+		
 		u = User.get(:find_by_email, :email => email)
 
 		if !u.blank?
