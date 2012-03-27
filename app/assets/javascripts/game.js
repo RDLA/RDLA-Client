@@ -16,7 +16,7 @@ function update_player_move(direction,player)
 {
 	if(!document.getElementById("player"+player))
 	{
-		refresh_map();
+		/*refresh_map();*/
 	}
 	else
 	{
@@ -66,7 +66,7 @@ mov_left = '+=0px'; mov_top = '+=0px';
         },
       	complete: function(){
       		
-      		refresh_map();
+      		/*refresh_map();*/
       	}
       	
       } );

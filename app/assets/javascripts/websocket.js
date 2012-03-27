@@ -67,7 +67,7 @@ function onMessage(evt) {
 function reset_connection()
 {
 	log("Le serveur a cessé de répondre...");
-	list_players = null;
+	list_players = null;''
 	info_player = null;
 	list_fields = null;
 	players_name = new Array();
