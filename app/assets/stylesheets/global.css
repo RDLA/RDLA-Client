@@ -10,3 +10,28 @@ body
 	background:url("/assets/backtest.jpg") fixed;
 	font-family: 'Happy Monkey', cursive;
 }
+.disconnect
+{
+	position:fixed;
+	right:0.5em;
+	top: 0.5em;
+	text-decoration:none;
+}
+.disconnect:hover span
+{
+	display:inline;
+	color:#FFF;
+	background: rgba(100, 0, 0, 0.5);
+	box-shadow: 10px 10px 12px #000;
+	font-weight:bold;
+	position:relative;
+	top:-0.25em;
+	padding:0.5em;
+	margin:0.5em;
+	border-radius:2em;
+}
+.disconnect span
+{
+	display:none;
+	
+}

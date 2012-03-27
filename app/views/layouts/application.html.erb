@@ -9,7 +9,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<%= link_to(raw("<span>Se déconnecter</span>#{image_tag("close.png")}"), disconnect_path, method: :delete, class: "disconnect") unless @user.blank? %>
 <%= yield %>
 
 </body>

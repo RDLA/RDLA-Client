@@ -53,6 +53,7 @@ Client::Application.routes.draw do
   get '/game', to: 'game#index'
   get 'fields', to: 'fields#index'
   match '/auth/:provider/callback', to: 'sessions#create'
+  delete '/disconnect', to: 'sessions#destroy'
   root to: 'home#index'
 
   # See how all your routes lay out with "rake routes"

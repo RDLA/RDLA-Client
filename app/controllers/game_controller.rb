@@ -2,7 +2,7 @@
 class GameController < ApplicationController
   before_filter :check_user
   def index
-    player = Player.find(session[:player_connected].to_i)
+    player = Player.find(session[:player_connected].to_i) rescue nil
     if @user.id == player.user_id
       @player = player
     else
@@ -10,7 +10,7 @@ class GameController < ApplicationController
     end
   end
   def log_player
-    player = Player.find(params[:id].to_i)
+    player = Player.find(params[:id].to_i) rescue nil
     if @user.id == player.user_id
       session[:player_connected] = player.id
       redirect_to game_path
@@ -19,11 +19,11 @@ class GameController < ApplicationController
     end
   end
   def connect_player
-    @players = @user.get(:players)
+    @players = @user.get(:players) rescue nil
   end
 private
   def check_user
-    @user = User.find(session[:user].to_i)
+    @user = User.find(session[:user].to_i) rescue nil
     if @user.blank?
       redirect_to root_path
     end
