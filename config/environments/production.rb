@@ -65,6 +65,4 @@ Client::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  DB_URL = "http://mistral.rdla.fr/api/"
-  ASSETS_URL = "http://assets.rdla.fr/"
 end
