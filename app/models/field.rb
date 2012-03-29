@@ -8,7 +8,7 @@ class Field < ActiveResource::Base
   #
   # Returns true if the generation success, false otherwise.
   def self.generate_sprites
-    begin
+    #begin
       list = Magick::ImageList.new
       self.all.each do |field|
         list.read "#{ASSETS_URL}#{field.filename}"
@@ -22,9 +22,9 @@ class Field < ActiveResource::Base
       ftp.putbinaryfile("#{Rails.root}/tmp/field.png", "field.png")
       ftp.close
       true
-    rescue
-        puts $!
-        false
-    end
+   # rescue
+      #  puts $!
+     #   false
+    #end
   end
 end
