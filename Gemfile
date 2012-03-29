@@ -10,6 +10,7 @@ gem 'omniauth-facebook'
 group :development do
 	gem "rails_best_practices"
 	gem "foreman"	
+        gem "sqlite3"
 end
 group :production do
 	gem "pg"

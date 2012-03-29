@@ -23,6 +23,7 @@ class Field < ActiveResource::Base
       ftp.close
       true
     rescue
+        puts $!
         false
     end
   end
