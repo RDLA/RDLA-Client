@@ -3,14 +3,13 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.2'
 
 gem 'heroku'
-gem "rmagick"
 #Auth
 gem 'omniauth-facebook'
 
 group :development do
 	gem "rails_best_practices"
 	gem "foreman"	
-        gem "sqlite3"
+    gem "sqlite3"
 end
 group :production do
 	gem "pg"

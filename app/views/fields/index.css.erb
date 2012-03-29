@@ -1,3 +1,5 @@
+<% count = 0 %>
 <% @fields.each do |field| %>
-<%= ".field#{field.id}{background:url('#{ASSETS_URL}#{field.filename}');}" -%>
+<%= ".field#{field.id}{background:url('#{ASSETS_URL}field.png') #{-72*count}px 0 }" -%>
+<% count +=1 %>
 <% end %>
