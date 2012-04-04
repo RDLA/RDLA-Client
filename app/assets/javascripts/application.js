@@ -13,19 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-
-connect_websocket();
-function change_server_state()
-{
-	if(is_websocket)
-	{
-		$("#state_server").html("ON").removeClass("state_server_off").addClass("state_server_on");
-		
-	}
-	else
-	{
-		$("#state_server").html("OFF").removeClass("state_server_on").addClass("state_server_off");;
-		setTimeout(connect_websocket,10000); // Try to reconnect every 10 seconds
-	}
-}
-
