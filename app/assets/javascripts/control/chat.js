@@ -71,7 +71,6 @@ var Chat = {
     var command = $.trim($("#command").val()); // We get the message being typed
     if(evt.which == keys.enter && command != "" )
       {
-      alert("Enter");
       Chat.log(command); // For debug: TO DELETE After.
       if(config.server_online)
         Connection.send(command); // Send the message to gameserver
