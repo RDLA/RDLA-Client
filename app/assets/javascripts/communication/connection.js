@@ -36,6 +36,7 @@ var Connection = {
   reset: function()
     {
     	initialize_model(); // We set to blank all data stored previously
+    	setTimeout(Connection.open,10000); // Try to reconnect in 10 secondes
     },
 
 
@@ -84,28 +85,28 @@ var Connection = {
       {
       // We received a list of all players in the area. We just have to 
       // store it in the model "map_of_players".
-      map_of_players = $.parseJSON(msg.substring(msg.indexOf(' ',1),msg.length));
+      map_of_players = $.parseJSON(Connection.parseData(msg));
       }
 	else if(Connection.parseCommand(msg) == "/LIST_FIELDS")
       {
       // We received a list of all field in the area. We just have to 
       // store it in the model "map_of_fields".
-      map_of_fields  = $.parseJSON(msg.substring(msg.indexOf(' ',1),msg.length));
+      map_of_fields  = $.parseJSON(Connection.parseData(msg));
       }
 	else if(Connection.parseCommand(msg) == "/INFO_PLAYER")
 	  {
       // We received all the information available about a specified players_name
       // We parse it and store it to the players structure
-      var player = $.parseJSON(msg.substring(msg.indexOf(' ',1),msg.length));
+      var player = $.parseJSON(Connection.parseData(msg));
       players_informations[player.id]=player;
       }
-    else if(msg.substring(0,msg.indexOf(' ',1)) == "/MOVE")
+    else if(Connection.parseCommand(msg) == "/MOVE")
       {
       // We received an information: A player has changed position. We
       // have to set the new information and trigger the proper event.
-      // TODO
+      // TODO : Method not implemented yet.
       /*
-        info = msg.substring(msg.indexOf(' ',1),msg.length).split(' ');
+        var info = Connection.parseData(msg).split(' ');
 	    update_player_move(info[1],info[2]);
 	  */ 
 	  }
@@ -160,13 +161,13 @@ var Connection = {
   onClose: function(evt)
     {
 		config.server_online = false; // We tell the client the server is now off
-		initialize_model(); // We set to blank all data stored previously
+		Connection.reset(); // We want to reset the server in order to try to reconnect
         log(Message.SERVER_DISCONNECTED); // We tell the user that they is a disconnection
     },
 
 
 
-  // Internal: Parse a message to isolate the command sent from the data
+  // Internal: Parse a message to isolate the command sent from the message
   //
   // msg - The message sent throught the Websocket: Format: /COMMAND data
   //
@@ -177,5 +178,17 @@ var Connection = {
    parseCommand:function(msg)
      {
        return msg.substring(0,msg.indexOf(' ',1));
+     },
+  // Internal: Parse a message to isolate the data sent from the message
+  //
+  // msg - The message sent throught the Websocket: Format: /COMMAND data
+  //
+  // Examples
+  //  parseData("/MOVE 1 UP ") --> Returns 1 UP
+  //
+  // Returns the Data
+   parseCommand:function(msg)
+     {
+       return msg.substring(msg.indexOf(' ',1),msg.length)
      }
 };
