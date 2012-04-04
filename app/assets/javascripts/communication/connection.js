@@ -117,7 +117,7 @@ var Connection = {
       // TODO: Securize the authentification with hash
       
       var idplayer = $("#player_connected").val(); // We get the ID of the player logged. Ex: 1 
-      log(Message.LOGGING); // We tell the client that we are currently logging in
+      Chat.log(Message.LOGGING); // We tell the client that we are currently logging in
       if(idplayer !== undefined) // We check if we have retrieved an id for the current player.
         Connection.send("/LOG player "+idplayer); // We send the request to the server.
       }
@@ -125,7 +125,7 @@ var Connection = {
       {
       // It is a unknown message. It's probably a chat message, so we
       // just send it to the console.
-      log(msg);
+      Chat.log(msg);
       }
     
     }, // End of onMessage function
@@ -162,7 +162,7 @@ var Connection = {
     {
 		config.server_online = false; // We tell the client the server is now off
 		Connection.reset(); // We want to reset the server in order to try to reconnect
-        log(Message.SERVER_DISCONNECTED); // We tell the user that they is a disconnection
+        Chat.log(Message.SERVER_DISCONNECTED); // We tell the user that they is a disconnection
     },
 
 
