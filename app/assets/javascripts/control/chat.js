@@ -9,7 +9,7 @@ var Chat = {
   
   // Fonctions declaration
   
-  // Public: Bind all function to corresponding events
+  // Public: Bind all functions to corresponding events
   // 
   // Returns nothing
   bind_events: function()
@@ -62,7 +62,8 @@ var Chat = {
   // Public: Observe the chat console for sending the message if the user
   // type "Enter"
   // 
-  // evt - The jQuery.Event Triggered when user hit a key.
+  // evt - The jQuery.Event Triggered when user hit a key. You can find
+  // information about JQuery.Event object here: http://api.jquery.com/category/events/event-object/
   // 
   // Returns nothing    
   observe: function(evt)
