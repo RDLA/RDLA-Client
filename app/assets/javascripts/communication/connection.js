@@ -19,7 +19,7 @@ var Connection = {
     {
       Connection.websocket = new WebSocket("ws://"+config.websocket_url);
       
-      // Link  all function to the current websocket in order to handle
+      // Bind  all functions to the current websocket in order to handle
       // message
       Connection.websocket.onopen    = Connection.onOpen;
       Connection.websocket.onmessage = Connection.onMessage;
