@@ -187,8 +187,8 @@ var Connection = {
   //  parseData("/MOVE 1 UP ") --> Returns 1 UP
   //
   // Returns the Data
-   parseCommand:function(msg)
+   parseData:function(msg)
      {
-       return msg.substring(msg.indexOf(' ',1),msg.length)
+       return msg.substring(msg.indexOf(' ',1),msg.length);
      }
 };
