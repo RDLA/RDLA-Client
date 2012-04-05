@@ -25,6 +25,7 @@ var players_informations;
 function initialize_model()
 {
   current_player = {
+                     id:null,
                      state: state.wait
                    };
   map_of_players = null;

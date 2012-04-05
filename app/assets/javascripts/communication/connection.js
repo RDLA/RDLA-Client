@@ -63,6 +63,7 @@ var Connection = {
   onOpen: function(evt) 
     {
 		config.server_online = true; // We tell the client the server is now up
+		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
     },
 
 
@@ -104,11 +105,9 @@ var Connection = {
       {
       // We received an information: A player has changed position. We
       // have to set the new information and trigger the proper event.
-      // TODO : Method not implemented yet.
-      /*
-        var info = Connection.parseData(msg).split(' ');
-	    update_player_move(info[1],info[2]);
-	  */ 
+      // Message Syntax: /MOVE DIRECTION IDPLAYER. Example: /MOVE LEFT 1
+      var info = Connection.parseData(msg).split(' '); // info[1] = DIRECTION | info[2] = IDPLAYER
+	  Player.move(info[2],info[1]);
 	  }
 	else if(msg == "/WAIT_AUTH")
       {
@@ -141,8 +140,8 @@ var Connection = {
   // Returns nothing
   onError: function(evt)
     {
-		config.server_online = true; // We tell the client the server is now off
-		
+		config.server_online = false; // We tell the client the server is now off
+		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
 		// We tell the developper that they was a problem (Unfortunately),
 		// we can't tell him why...
 		console.debug("An error occured with websocket connection");
@@ -161,6 +160,7 @@ var Connection = {
   onClose: function(evt)
     {
 		config.server_online = false; // We tell the client the server is now off
+		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
 		Connection.reset(); // We want to reset the server in order to try to reconnect
         Chat.log(Message.SERVER_DISCONNECTED); // We tell the user that they is a disconnection
     },
