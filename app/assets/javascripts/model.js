@@ -25,7 +25,7 @@ var players_informations;
 function initialize_model()
 {
   current_player = {
-                     id:null,
+                     id:parseInt($("#player_connected").val(),10), //Set the player ID: TODO: AJax Request
                      state: state.wait
                    };
   map_of_players = null;

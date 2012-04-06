@@ -64,6 +64,7 @@ var Connection = {
     {
 		config.server_online = true; // We tell the client the server is now up
 		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
+		initialize_model();
     },
 
 
@@ -87,12 +88,15 @@ var Connection = {
       // We received a list of all players in the area. We just have to 
       // store it in the model "map_of_players".
       map_of_players = $.parseJSON(Connection.parseData(msg));
+      Map.synchronize_players();
       }
 	else if(Connection.parseCommand(msg) == "/LIST_FIELDS")
       {
       // We received a list of all field in the area. We just have to 
       // store it in the model "map_of_fields".
       map_of_fields  = $.parseJSON(Connection.parseData(msg));
+      
+
       }
 	else if(Connection.parseCommand(msg) == "/INFO_PLAYER")
 	  {
@@ -100,6 +104,8 @@ var Connection = {
       // We parse it and store it to the players structure
       var player = $.parseJSON(Connection.parseData(msg));
       players_informations[player.id]=player;
+      if(player.id == current_player.id)
+        Map.initialize_map();
       }
     else if(Connection.parseCommand(msg) == "/MOVE")
       {
@@ -107,7 +113,8 @@ var Connection = {
       // have to set the new information and trigger the proper event.
       // Message Syntax: /MOVE DIRECTION IDPLAYER. Example: /MOVE LEFT 1
       var info = Connection.parseData(msg).split(' '); // info[1] = DIRECTION | info[2] = IDPLAYER
-	  Player.move(info[2],info[1]);
+      
+	  Player.move(info[2],'/'+info[1]);
 	  }
 	else if(msg == "/WAIT_AUTH")
       {

@@ -13,7 +13,7 @@ var Player = {
   // Returns nothing
   bind_events: function()
     {
-      $("#map").on("keydown", Player.observe); // Maybe on body?
+      $("body").on("keydown", Player.observe); // Maybe on body?
     },
 
 
@@ -49,8 +49,127 @@ var Player = {
   // 
   // Returns nothing    
   move: function(idPlayer, direction)
-  {//TODO
-  	
-  }
+  {
+  	switch(direction)
+  	{
+  	  case '/LEFT': 
+  	    $('#player'+idPlayer).removeClass("rabbit_up rabbit_right rabbit_down").addClass("rabbit_left");
+  	  break;
+  	  case '/RIGHT':
+  	    $('#player'+idPlayer).removeClass("rabbit_up rabbit_left rabbit_down").addClass("rabbit_right");
+  	  break;
+  	  case '/UP':
+  	    $('#player'+idPlayer).removeClass("rabbit_right rabbit_left rabbit_down").addClass("rabbit_up");
+  	  break;
+  	  case '/DOWN':
+  	   $('#player'+idPlayer).removeClass("rabbit_up rabbit_right rabbit_left ").addClass("rabbit_down");
+  	  break;
+  	}
+    if(idPlayer == current_player.id && current_player.state == state.wait) // This is the current player
+    {
+      $("body").off(); // The player is not allowed to send keydown.
+      var mov_top = "+=0px";
+      var mov_left = "+=0px";
+      switch(direction)
+  	    {
+  	    case '/LEFT': mov_left = "+=72px"; break;
+  	    case '/RIGHT': mov_left = "-=72px"; break;
+  	    case '/UP': mov_top = "+=72px"; break;
+  	    case '/DOWN': mov_top = "-=72px"; break;
+  	    }
+  
+      // Now we can send the command.
+      Connection.send(direction);
+      current_player.state = state.walking;
+      Player.animate('#field_container, #player_container', idPlayer, mov_left, mov_top);
+    }
+    else // This is another player
+    {
+      var mov_top = "+=0px";
+      var mov_left = "+=0px";
+      switch(direction)
+  	    {
+  	    case '/LEFT': mov_left = "-=72px"; break;
+  	    case '/RIGHT': mov_left = "+=72px"; break;
+  	    case '/UP': mov_top = "-=72px"; break;
+  	    case '/DOWN': mov_top = "+=72px"; break;
+  	    }
+  	   Player.animate('#player'+idPlayer+', #player_name'+idPlayer, idPlayer, mov_left, mov_top);
+    }
+  },
+
+
+  // Internal: Set the background position Y of an element
+  // 
+  // ele - The element to update, specified in JQuery style
+  // val - the new value of the background-position css property
+  // 
+  // Returns nothing 
+  set_backpos_y: function (ele, val)
+    {
+      var posX = $(ele).css('background-position').split(' ')[0];
+      $(ele).css('background-position', posX+' '+val+'px');
+    },
+
+
+
+  // Internal: Toggle sprite to animate an element.
+  // 
+  // ele - The element to toggle
+  //
+  // Returns nothing 
+  toggleFrame: function (ele)
+    {
+    var posY = $(ele).css('background-position').split(' ')[1];
+    if(posY == "-72px")
+      {
+      Player.set_backpos_y(ele,0);
+      }
+    else
+      {
+      Player.set_backpos_y(ele,-72);
+      }
+    },
+
+
+
+  // Internal: Move a player with animation
+  // 
+  // elements - A list of element to move. Can be container or player_name
+  // idPlayer - The id of the player currently moving.
+  // mov_left - The left translation to do. Format: +Xpx
+  // mov_top - The top translation to do. Format: +Xpx
+  //
+  // Returns nothing  
+  animate: function(elements, idPlayer, mov_left, mov_top)
+    {
+      var count = 0; // Count for sprite animation
+      $(elements).animate({ 
+                            left: mov_left,
+                            top: mov_top
+                          }, 
+                          {
+                            duration: 500, 
+                            easing: 'linear',
+                            step: function(now,fx)
+                              {
+        	                    if(++count % 10 == 0)
+		    			          Player.toggleFrame('#player'+idPlayer); // We change the frame for animating the sprite	
+                              },
+      	                    complete: function()
+      	                      {
+      	                        $('#player'+idPlayer).css('background-position','') // We reset the background position to css based value
+      	                        if(idPlayer == current_player.id)
+      	                          {
+      	                            current_player.state = state.wait;
+      		                        Player.bind_events();
+      		                        Map.synchronize_fields();
+      		                        
+      	                          }
+      	                         
+      	                          
+      	                      }
+      	                   });
+    } // End of animate
   
 }

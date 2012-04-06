@@ -4,5 +4,10 @@
  */
 $(function()
   {
-  Chat.bind_events(); // Connect events to Chat's functions
+    if (window.location.pathname == "/game")
+      {
+      Chat.bind_events(); // Connect events to Chat's functions
+      Player.bind_events();
+      }
+    
   });
