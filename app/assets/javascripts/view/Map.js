@@ -53,7 +53,9 @@ var Map = {
   // Returns nothing
   synchronize_players: function()
     {
+    
     var new_player = "";
+    var array_of_move = new Array();
     // We mark all the player with a useless class.
     $('#player_container *').addClass("useless");
     for(var y = 0; y < 13 ; y++)
@@ -62,21 +64,29 @@ var Map = {
         {
           if(map_of_players[y][x] && map_of_players[y][x] != current_player.id)
           {
-            $('#player'+map_of_players[y][x]+", #player_name"+map_of_players[y][x]).removeClass("useless"); // THe player have to be on the map
-            
+            console.log("We found player "+map_of_players[y][x]+" On "+x+"/"+y);
             // Check if the player founded exists already
             if(document.getElementById('player'+map_of_players[y][x]))
             {// The player is already on the map, and may be in move.
+              console.log("Player is on the map");
               //TODO: Handle movement, and display player properly.
-              
+              if(players_informations[map_of_players[y][x]].state == state.wait || players_informations[map_of_players[y][x]].state == undefined  )
+                { // Player is waiting, so we normally just have to display it on the map at the right position
+                console.log("Player is waiting");
+                  new_player += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);	
+                }
+              else
+                {
+                  console.log("Player is running");
+                  $('#player'+map_of_players[y][x]+", #player_name"+map_of_players[y][x]).removeClass("useless"); // THe player have to be on the map
+                  array_of_move.push({id:map_of_players[y][x] , direction: players_informations[map_of_players[y][x]].state, posx: x , posy: y  });
+                }
             }
             else
             {// The player isn't already on the map, so we juste have to create it.
-              new_player += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);	
+            console.log("THe player is not on the map");
+            new_player += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);	
             }
-            
-            //TODO: Fix problem of synchronization
-            //map += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);            
           }
         }
       }
@@ -85,6 +95,32 @@ var Map = {
     
     $("#player_container").append(new_player);
     $("#player_container").css("top","-"+config.sprite_size+"px").css("left","-"+config.sprite_size+"px");
+    
+    //We reset all player currently moving
+    var array_of_move_length = array_of_move.length
+    for(var i= 0; i < array_of_move_length ; i++)
+    {
+      //array_of_move[i].id array_of_move[i].state
+     
+      $("#player"+array_of_move[i].id+", #player_name"+array_of_move[i].id).stop(true,true);
+      $('#player'+array_of_move[i].id).css('background-position','');
+      players_informations[array_of_move[i].id].state = state.wait;
+      $("#player"+array_of_move[i].id+", #player_name"+array_of_move[i].id).css("top",array_of_move[i].posy*config.sprite_size+"px").css("left", array_of_move[i].posx*config.sprite_size+"px");
+      /*switch(array_of_move[i].state)
+      {
+      	case state.left:
+      	  //$("#player_container").css("top",array_of_move[i].posy*config.sprite_size+"px").css("left", array_of_move[i].posx*config.sprite_size+"px");
+      	break;
+      	case state.right:
+      	break;
+      	case state.up:
+      	break;
+      	case state.down:
+      	break;      	
+      } */
+    }
+    
+    
     },
 
 

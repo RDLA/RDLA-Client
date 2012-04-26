@@ -88,7 +88,7 @@ var Connection = {
       // We received a list of all players in the area. We just have to 
       // store it in the model "map_of_players".
       map_of_players = $.parseJSON(Connection.parseData(msg));
-      Map.synchronize_players();
+      
       }
 	else if(Connection.parseCommand(msg) == "/LIST_FIELDS")
       {
@@ -104,8 +104,12 @@ var Connection = {
       // We parse it and store it to the players structure
       var player = $.parseJSON(Connection.parseData(msg));
       players_informations[player.id]=player;
+      
       if(player.id == current_player.id)
+      {
         Map.initialize_map();
+      }
+        
       }
     else if(Connection.parseCommand(msg) == "/MOVE")
       {
@@ -126,6 +130,11 @@ var Connection = {
       Chat.log(Message.LOGGING); // We tell the client that we are currently logging in
       if(idplayer !== undefined) // We check if we have retrieved an id for the current player.
         Connection.send("/LOG player "+idplayer); // We send the request to the server.
+      }
+    else if(Connection.parseCommand(msg) == "/MSG_LOGIN" ||Connection.parseCommand(msg) == "/MSG_LOGOUT")
+      {
+        Map.synchronize_players();
+        //TODO: Write a message in a console when a user logged in.
       }
     else
       {

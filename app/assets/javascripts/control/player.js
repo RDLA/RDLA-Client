@@ -49,7 +49,7 @@ var Player = {
   // 
   // Returns nothing    
   move: function(idPlayer, direction)
-  {
+  { //TODO: Try to refactor and optimize
   	switch(direction)
   	{
   	  case '/LEFT': 
@@ -72,15 +72,25 @@ var Player = {
       var mov_left = "+=0px";
       switch(direction)
   	    {
-  	    case '/LEFT': mov_left = "+=72px"; break;
-  	    case '/RIGHT': mov_left = "-=72px"; break;
-  	    case '/UP': mov_top = "+=72px"; break;
-  	    case '/DOWN': mov_top = "-=72px"; break;
+  	    case '/LEFT':
+  	      mov_left = "+=72px";
+  	      current_player.state = state.left;
+  	    break;
+  	    case '/RIGHT':
+  	      mov_left = "-=72px";
+  	      current_player.state = state.right;
+  	    break;
+  	    case '/UP':
+  	      mov_top = "+=72px";
+  	      current_player.state = state.up;
+  	    break;
+  	    case '/DOWN':
+  	      mov_top = "-=72px";
+  	      current_player.state = state.down;
+  	    break;
   	    }
-  
       // Now we can send the command.
       Connection.send(direction);
-      current_player.state = state.walking;
       Player.animate('#field_container, #player_container', idPlayer, mov_left, mov_top);
     }
     else // This is another player
@@ -89,10 +99,22 @@ var Player = {
       var mov_left = "+=0px";
       switch(direction)
   	    {
-  	    case '/LEFT': mov_left = "-=72px"; break;
-  	    case '/RIGHT': mov_left = "+=72px"; break;
-  	    case '/UP': mov_top = "-=72px"; break;
-  	    case '/DOWN': mov_top = "+=72px"; break;
+  	    case '/LEFT':
+  	      mov_left = "-=72px";
+  	      players_informations[idPlayer].state = state.left;
+  	    break;
+  	    case '/RIGHT':
+  	      mov_left = "+=72px";
+  	      players_informations[idPlayer].state = state.right;
+  	    break;
+  	    case '/UP':
+  	      mov_top = "-=72px";
+  	      players_informations[idPlayer].state = state.up;
+  	    break;
+  	    case '/DOWN':
+  	      mov_top = "+=72px";
+  	      players_informations[idPlayer].state = state.down;
+  	    break;
   	    }
   	   Player.animate('#player'+idPlayer+', #player_name'+idPlayer, idPlayer, mov_left, mov_top);
     }
@@ -144,6 +166,7 @@ var Player = {
   animate: function(elements, idPlayer, mov_left, mov_top)
     {
       var count = 0; // Count for sprite animation
+      
       $(elements).animate({ 
                             left: mov_left,
                             top: mov_top
@@ -158,18 +181,31 @@ var Player = {
                               },
       	                    complete: function()
       	                      {
-      	                        $('#player'+idPlayer).css('background-position','') // We reset the background position to css based value
+      	                      if (this.id.substring(0,7) == "player_")
+      	                      {
+      	                      	console.log("Alert Complete");
+      	                        $('#player'+idPlayer).css('background-position',''); // We reset the background position to css based value
       	                        if(idPlayer == current_player.id)
       	                          {
       	                            current_player.state = state.wait;
       		                        Player.bind_events();
       		                        Map.synchronize_fields();
-      		                        
+      		                        Map.synchronize_players();
       	                          }
+      	                        else
+      	                          {
+      	                            players_informations[idPlayer].state = state.wait;
+      	                            
+      	                          }
+      	                      }
+      	                      
       	                         
       	                          
       	                      }
       	                   });
-    } // End of animate
-  
+    }, // End of animate
+    complete: function()
+    {
+    	
+    }
 }
