@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= locale %>">
 <head>
   <title>RDLA-Live!</title>
   <link href='http://fonts.googleapis.com/css?family=Happy+Monkey' rel='stylesheet' type='text/css'>
@@ -9,7 +9,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= link_to(raw("<span>Se déconnecter</span>#{image_tag("close.png")}"), disconnect_path, method: :delete, class: "disconnect") unless @user.blank? %>
+<%= link_to(raw("<span>#{t('layout.logout')}</span>#{image_tag("close.png")}"), disconnect_path, method: :delete, class: "disconnect") unless @user.blank? %>
 <%= yield %>
 
 </body>

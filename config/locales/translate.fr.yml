@@ -1,0 +1,13 @@
+fr:
+  layout:
+    logout: Se déconnecter
+  home:
+    state_server: Etat du serveur
+    log_in_with: Se connecter via
+    connect_with_facebook: Connectez vous avec Facebook
+  connect_player:
+    select_this_player: Choisir ce personnage
+    empty: Vide
+  game:
+    close_console: Fermer la console
+    write_command_here: Ecrire votre commande ici

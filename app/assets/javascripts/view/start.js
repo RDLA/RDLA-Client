@@ -6,4 +6,5 @@ $(function()
   {
   if (window.location.pathname == "/")
     Home.bind_events();
+  
   });

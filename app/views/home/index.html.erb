@@ -3,7 +3,7 @@
 </h1>
 
 <div class="home_login">
-  <p>Etat du server: <span id="state_server" class="state_server_off">OFF</span></p>
-  Se connecter via: <br/>
-  <%= link_to image_tag("facebook.png",:alt=>" Connectez vous avec Facebook"), "/auth/facebook" %>
+  <p><%= t 'home.state_server'  %>: <span id="state_server" class="state_server_off">OFF</span></p>
+  <%= t 'home.log_in_with' %>: <br/>
+  <%= link_to image_tag("facebook.png",:alt=>"#{t('home.connect_with_facebook')}"), "/auth/facebook" %>
 </div>

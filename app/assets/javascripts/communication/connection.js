@@ -134,7 +134,7 @@ var Connection = {
     else if(Connection.parseCommand(msg) == "/MSG_LOGIN" ||Connection.parseCommand(msg) == "/MSG_LOGOUT")
       {
         Map.synchronize_players();
-        //TODO: Write a message in a console when a user logged in.
+        Chat.log(Message.USER_CONNECTED(Connection.parseData(msg)));
       }
     else
       {

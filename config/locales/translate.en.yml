@@ -1,0 +1,13 @@
+en:
+  layout:
+    logout: Logout
+  home:
+    state_server: Server status
+    log_in_with: Log in with
+    connect_with_facebook: Log in with Facebook
+  connect_player:
+    select_this_player: Select this player
+    empty: Empty
+  game:
+    close_console: Close the console
+    write_command_here: Write your message here

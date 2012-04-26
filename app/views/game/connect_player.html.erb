@@ -2,12 +2,12 @@
 <div class="select_player">
 <h2><%= player["name"] %></h2>
   <%= image_tag "/assets/big_rabbit.jpg" %>
-  <p><%= link_to "Choisir ce personnage","#{log_player_path}?id=#{player["id"]}", :method => :put %></p>
+  <p><%= link_to t('connect_player.select_this_player'),"#{log_player_path}?id=#{player["id"]}", :method => :put %></p>
 </div>
 <% end %>
 <% if @players.length < 3 %>
   <% ((@players.length+1)..3).each do |i|  %>
-    <div class="select_player"><div>(Vide)</div></div>
+    <div class="select_player"><div>(<Vide><%= t 'connect_player.empty' %>)</div></div>
   <% end %>
 <% end %>
 ''
