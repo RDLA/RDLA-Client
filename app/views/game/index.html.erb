@@ -1,11 +1,6 @@
 <input id="player_connected" type="hidden" value="<%= @player.id %>" />
 <canvas id="map" class="map" width="720" height="720">
 </canvas>
-<audio class="bgsound" preload  loop controls >
-  <source src="http://www.rdla.fr/flute_paradize.ogg" type="audio/ogg" />
-  <source src="http://www.rdla.fr/flute_paradize.mp3" type="audio/mpeg" />
-</audio>
-
 <div class="console" id="console"><img src="/assets/close.png" id="close_chat" class="close_windows" alt="<%= t('game.close_console') %>" />
 <div id="chat" class="chat"></div>
 <p class="command_bar"><input type="text" id="command" placeholder="<%= t 'game.write_command_here' %>" class="command"  /></p>

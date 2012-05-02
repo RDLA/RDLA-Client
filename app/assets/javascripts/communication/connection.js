@@ -18,13 +18,14 @@ var Connection = {
   open: function()
     {
       Connection.websocket = new WebSocket("ws://"+config.websocket_url);
-      
+     
       // Bind  all functions to the current websocket in order to handle
       // message
       Connection.websocket.onopen    = Connection.onOpen;
       Connection.websocket.onmessage = Connection.onMessage;
       Connection.websocket.onerror   = Connection.onError;
       Connection.websocket.onclose   = Connection.onClose;
+       
     },
 
 
@@ -155,6 +156,7 @@ var Connection = {
   // Returns nothing
   onError: function(evt)
     {
+        
 		config.server_online = false; // We tell the client the server is now off
 		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
 		// We tell the developper that they was a problem (Unfortunately),
@@ -174,6 +176,7 @@ var Connection = {
   // Returns nothing 
   onClose: function(evt)
     {
+
 		config.server_online = false; // We tell the client the server is now off
 		$("body").trigger("state_server"); // We trigger a custom event to signal it to everybody
 		Connection.reset(); // We want to reset the server in order to try to reconnect

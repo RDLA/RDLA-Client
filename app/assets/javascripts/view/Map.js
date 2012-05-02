@@ -52,7 +52,7 @@ var Map = {
     	Map.canvas.height = document.getElementById("map").height;
 
     	
-    	stage = new Stage(Map.canvas.html);
+    	Map.stage = new Stage(Map.canvas.html);
 
     	// Preload elements
         Map.preload = new PreloadJS(false);
@@ -96,19 +96,21 @@ var Map = {
     {
       // Create Sprites
       Map.create_spritesheets();
-      // Add listener for tick();
-      Ticker.addListener(Map);
-      Ticker.useRAF = true;
-      // On vise le taux d’images/seconde optimal (60 FPS)
-      Ticker.setInterval(17);
+
       
       // For debug: Get FPS
       txtFps = new Text("FPS");
       txtFps.color = "#FFF";
       txtFps.x = 690;
       txtFps.y = 10;
-      stage.addChild(txtFps);
+      Map.stage.addChild(txtFps);
       // End get FPS.
+      
+      // Add listener for tick();
+      Ticker.addListener(Map);
+      Ticker.useRAF = true;
+      // On vise le taux d’images/seconde optimal (60 FPS)
+      Ticker.setInterval(17);
       
     },
 
@@ -146,7 +148,7 @@ var Map = {
       	
       	// For Testing only
       	animation = new BitmapAnimation(Map.sprites.player);
-      	
+      
       	animation.gotoAndPlay("right");
       
       	animation.name = "Rabbit!";
@@ -155,7 +157,7 @@ var Map = {
       	animation.y = 36;
       	animation.currentFrame = 0;
       	animation.direction = 1;
-      	stage.addChild(animation);
+      	Map.stage.addChild(animation);
       	// End Testing
       	
       	
@@ -165,10 +167,10 @@ var Map = {
     	txtFps.text = Math.round(Ticker.getMeasuredFPS())+" fps";
     	
     	// For Testing only
-        animation.x += animation.vX*animation.direction;
+        animation.x += animation.vX;
         // End testing
     	
-        stage.update();
+        Map.stage.update();
     }
 
  
