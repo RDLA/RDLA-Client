@@ -1,8 +1,6 @@
 <input id="player_connected" type="hidden" value="<%= @player.id %>" />
-<div class="map" id="map">
-  <div id="field_container"></div>
-  <div id="player_container"></div>
-</div>
+<canvas id="map" class="map" width="720" height="720">
+</canvas>
 <audio class="bgsound" preload  loop controls >
   <source src="http://www.rdla.fr/flute_paradize.ogg" type="audio/ogg" />
   <source src="http://www.rdla.fr/flute_paradize.mp3" type="audio/mpeg" />

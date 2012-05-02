@@ -107,7 +107,7 @@ var Connection = {
       
       if(player.id == current_player.id)
       {
-        Map.initialize_map();
+        $("body").trigger("player_logged"); // We trigger a custom event to signal that we can now render the map.
       }
         
       }
@@ -133,7 +133,6 @@ var Connection = {
       }
     else if(Connection.parseCommand(msg) == "/MSG_LOGIN" ||Connection.parseCommand(msg) == "/MSG_LOGOUT")
       {
-        Map.synchronize_players();
         Chat.log(Message.USER_CONNECTED(Connection.parseData(msg)));
       }
     else

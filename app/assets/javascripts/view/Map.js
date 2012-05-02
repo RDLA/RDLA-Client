@@ -5,159 +5,173 @@
  */
  
 var Map = {
-  // Variables declaration
- 
 
+  // Variables declaration
+  canvas: {
+    html: null , // The HTML Reference of the canvas element.
+  	width: 0, // Width of the canvas
+  	height: 0  // Height of the canvas.
+  },
+  
+
+  sprites: { // Reference to all spritesheet for displaying fields and players
+  	player: null,
+  	field: null
+  },
+  
+  stage: null, // The stage of the Map
+  preload: null, // Used for preloading Image.
+  
+  // Link to all assets
+  assets: ["http://assets.rdla.fr/field.png", 
+          "/assets/sprites/rabbit.png"],
+  
+  // Boolean to check if the Map is ready or not.
+  ready : false, // Boolean set to true when all assets are loaded.
+  
   // Functions declaration
   
-  // Public: Place all element on the blank map. Especially set the current
-  // player position.
+  // Public: Bind all functions to corresponding events
+  // 
+  // Returns nothing
+  bind_events: function()
+    {
+  	  $("body").on("player_connected", Map.initialize_map);
+    }, 
+
+
+
+  // Public: Preload all assets needed to render the map, and set default
+  // value to variables.
+  // 
+  // Returns nothing  
+  preload: function()
+    {
+    	Map.canvas.html = document.getElementById("map");
+    	Map.canvas.width = document.getElementById("map").width;
+    	Map.canvas.height = document.getElementById("map").height;
+
+    	
+    	stage = new Stage(Map.canvas.html);
+
+    	// Preload elements
+        Map.preload = new PreloadJS(false);
+    	Map.preload.onProgress = Map.preloadCheck;
+    	Map.preload.onError = Map.preloadError;
+    	Map.preload.loadManifest(Map.assets, true);
+    	    	
+    },
+
+
+
+  // Internal: Triggered when loading. Check when all assets are loaded
+  // and call initialize_map when ready
+  //
+  // Returns nothing  
+  preloadCheck: function(event)
+    {      
+      if(event.loaded == event.total)
+        {
+          Map.ready = true;
+          Map.initialize_map();	
+        }
+      else
+        Map.ready = false;
+    },
+
+  // Internal: Triggered when an error occured when loading. 
+  // TODO: Log the error
+  //
+  // Returns nothing      
+  preloadError: function(error)
+    {
+  	  console.log("Error occured when loading file: "+error.src)
+    },
+ 
+    
+  // Public: Prepare the map by configuring element of the EaselJS framework
   //
   // Returns nothing
   initialize_map: function()
     {
-    
-    var player_html = Map.generatePlayerHtml(current_player.id, players_informations[current_player.id].name, 5*config.sprite_size, 5*config.sprite_size);
-    if(!document.getElementById("player"+current_player.id))
-    {
-    	$("#map").append(player_html);
-    }
-	  
-    
-    Map.synchronize_fields();
-	Map.synchronize_players();
+      // Create Sprites
+      Map.create_spritesheets();
+      // Add listener for tick();
+      Ticker.addListener(Map);
+      Ticker.useRAF = true;
+      // On vise le taux d’images/seconde optimal (60 FPS)
+      Ticker.setInterval(17);
+      
+      // For debug: Get FPS
+      txtFps = new Text("FPS");
+      txtFps.color = "#FFF";
+      txtFps.x = 690;
+      txtFps.y = 10;
+      stage.addChild(txtFps);
+      // End get FPS.
+      
     },
 
-  // Public: Update fields on the map with the most recently information
-  // available in the data model.
+  // Internal: Prepare all animation and spritesheet for player and field
   //
-  // Returns nothing
-  synchronize_fields: function()
+  // Returns nothing    
+  create_spritesheets: function()
+  {
+  	Map.sprites.player = new SpriteSheet({
+      	images : ["/assets/sprites/rabbit.png"],
+      	frames : [
+      		[0,0,72,72],
+      		[0,68,72,72],
+      		[72,0,72,72],
+      		[72,68,72,72],
+      		[144,0,72,72],
+      		[144,68,72,72],
+      		[216,0,72,72],
+      		[216,68,72,72]
+      	],
+      	animations : {
+      		wait: [0, "wait",5], 
+      		left: [2,3, "left",5],
+      		right:[0,1, "right",5],
+      		up  : [4,5, "up",5],
+      		down: [6,7, "down",5]
+      	}
+      	
+      	});
+      	Map.sprites.field = new SpriteSheet({
+      	images : ["http://assets.rdla.fr/field.png"],
+      	frames : {width:72, height:72, regX: 36, regY:36}     
+      	});
+      	
+      	
+      	// For Testing only
+      	animation = new BitmapAnimation(Map.sprites.player);
+      	
+      	animation.gotoAndPlay("right");
+      
+      	animation.name = "Rabbit!";
+      	animation.vX = 2;
+      	animation.x = 0;
+      	animation.y = 36;
+      	animation.currentFrame = 0;
+      	animation.direction = 1;
+      	stage.addChild(animation);
+      	// End Testing
+      	
+      	
+  },
+  tick: function()
     {
-    var map = ""; // Variable that contains the html output.
-    for(var y = 0; y < 13 ; y++)
-	  {
-      for(var x = 0; x < 13 ; x++)
-        {
-         map += "<div id='pos_"+x+"_"+y+"' title='pos_"+x+"_"+y+"' class='field field"+map_of_fields[y][x]+"' style='left:"+(x*config.sprite_size)+"px;top:"+(y*config.sprite_size)+"px;'></div>";
-        }
-      }
-    $("#field_container").empty().append(map);
-    $("#field_container").css("top","-"+config.sprite_size+"px");
-	$("#field_container").css("left","-"+config.sprite_size+"px");
-    },
-
-  // Public: Update players on the map with the most recently information
-  // available in the data model.
-  //
-  // Returns nothing
-  synchronize_players: function()
-    {
-    
-    var new_player = "";
-    var array_of_move = new Array();
-    // We mark all the player with a useless class.
-    $('#player_container *').addClass("useless");
-    for(var y = 0; y < 13 ; y++)
-	  {
-      for(var x = 0; x < 13 ; x++)
-        {
-          if(map_of_players[y][x] && map_of_players[y][x] != current_player.id)
-          {
-            console.log("We found player "+map_of_players[y][x]+" On "+x+"/"+y);
-            // Check if the player founded exists already
-            if(document.getElementById('player'+map_of_players[y][x]))
-            {// The player is already on the map, and may be in move.
-              console.log("Player is on the map");
-              //TODO: Handle movement, and display player properly.
-              if(players_informations[map_of_players[y][x]].state == state.wait || players_informations[map_of_players[y][x]].state == undefined  )
-                { // Player is waiting, so we normally just have to display it on the map at the right position
-                console.log("Player is waiting");
-                  new_player += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);	
-                }
-              else
-                {
-                  console.log("Player is running");
-                  $('#player'+map_of_players[y][x]+", #player_name"+map_of_players[y][x]).removeClass("useless"); // THe player have to be on the map
-                  array_of_move.push({id:map_of_players[y][x] , direction: players_informations[map_of_players[y][x]].state, posx: x , posy: y  });
-                }
-            }
-            else
-            {// The player isn't already on the map, so we juste have to create it.
-            console.log("THe player is not on the map");
-            new_player += Map.generatePlayerHtml(map_of_players[y][x], players_informations[map_of_players[y][x]].name, x*config.sprite_size, y*config.sprite_size);	
-            }
-          }
-        }
-      }
-    // We remove player which are no longer on the map
-    $('#player_container').find(".useless").remove();
-    
-    $("#player_container").append(new_player);
-    $("#player_container").css("top","-"+config.sprite_size+"px").css("left","-"+config.sprite_size+"px");
-    
-    //We reset all player currently moving
-    var array_of_move_length = array_of_move.length
-    for(var i= 0; i < array_of_move_length ; i++)
-    {
-      //array_of_move[i].id array_of_move[i].state
-     
-      $("#player"+array_of_move[i].id+", #player_name"+array_of_move[i].id).stop(true,true);
-      $('#player'+array_of_move[i].id).css('background-position','');
-      players_informations[array_of_move[i].id].state = state.wait;
-      $("#player"+array_of_move[i].id+", #player_name"+array_of_move[i].id).css("top",array_of_move[i].posy*config.sprite_size+"px").css("left", array_of_move[i].posx*config.sprite_size+"px");
-      /*switch(array_of_move[i].state)
-      {
-      	case state.left:
-      	  //$("#player_container").css("top",array_of_move[i].posy*config.sprite_size+"px").css("left", array_of_move[i].posx*config.sprite_size+"px");
-      	break;
-      	case state.right:
-      	break;
-      	case state.up:
-      	break;
-      	case state.down:
-      	break;      	
-      } */
+    	txtFps.text = Math.round(Ticker.getMeasuredFPS())+" fps";
+    	
+    	// For Testing only
+        animation.x += animation.vX*animation.direction;
+        // End testing
+    	
+        stage.update();
     }
-    
-    
-    },
 
-
-
-   // Internal: Retrieve the css class of the player selected or set the
-   // default class.
-   //
-   // idPlayer - The player's id to look.  
-   //
-   // Returns a string containing all the css class of the player
-   getCurrentClass: function(idPlayer)
-     {
-     if(document.getElementById(idPlayer))
-       return $("#player"+idPlayer).attr("class");
-	 else
-	   return "player rabbit";
-     },
-
-
-   // Internal:Generate all the html needed to display a player on the
-   // map
-   //
-   // idPlayer - The player's id to place.
-   // name - the name of the player
-   // posx - The left position where positionning the player. Should be
-   //        X * Sprite_size  
-   // posy - The top position where positionning the player. Should be
-   //        Y * Sprite_size
-   //
-   // Returns the html generated of the player.
-   generatePlayerHtml: function(idPlayer, name,  posx, posy )
-     {
-     classlist = Map.getCurrentClass(idPlayer);
-     var player_html = "<span id='player_name"+idPlayer+"' class='player_name' style='left:"+posx+"px;top:"+(posy-5)+"px;' >"+name+"</span>";		
-	 player_html += "<div id='player"+idPlayer+"' class='"+classlist+"' style='left:"+posx+"px;top:"+posy+"px;'></div>";
-	 return player_html;
-     }
+ 
    
   
 }

@@ -8,8 +8,11 @@ gem 'omniauth-facebook'
 
 group :development do
 	gem "rails_best_practices"
+	gem "brakeman"
 	gem "foreman"	
-    gem "sqlite3"
+        gem "sqlite3"
+        gem 'quiet_assets'
+	gem 'thin'
 end
 group :production do
 	gem "pg"

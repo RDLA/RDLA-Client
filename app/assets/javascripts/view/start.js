@@ -6,5 +6,10 @@ $(function()
   {
   if (window.location.pathname == "/")
     Home.bind_events();
-  
+  else if(window.location.pathname == "/game")
+    {
+      Map.bind_events();
+      Map.preload();
+    }
+    
   });
